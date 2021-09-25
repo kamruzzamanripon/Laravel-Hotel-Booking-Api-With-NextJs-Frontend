@@ -1,13 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
+import {toast} from 'react-toastify'
+import { clearErrors} from '../redux/actions/roomActions'
 
 import RoomItem from './room/RoomItem'
 
 function Home({title = 'Home | Royal Hotel '}) {
-    const {rooms} = useSelector(state=>state.allRooms)
+
+    const dispatch = useDispatch()
+    const {rooms, error} = useSelector(state=>state.allRooms)
     //console.log(rooms)
+
+    useEffect(() => {
+        toast.error(error)
+        dispatch(clearErrors())
+    }, [])
+
     return (
         
         <div>
@@ -27,8 +37,8 @@ function Home({title = 'Home | Royal Hotel '}) {
             { rooms.data && rooms.data.length === 0 ?
                 <div className="alert alert-danger mt-5 w-100"><b>No Rooms.</b></div>
                 :
-                rooms.data && rooms.data.map(room => (
-                  <RoomItem key={room._id} room={room} />
+                rooms.data && rooms.data.map((room,index) => (
+                  <RoomItem key={index} room={room} />
                 ))
             }
 
