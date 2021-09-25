@@ -3,13 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const RoomItem = ({ room }) => {
+    const imageFileApi = JSON.parse(room.image); 
+    //console.log(imageFileApi)
     
     return (
         <div className="col-sm-12 col-md-6 col-lg-3 my-3">
             <div className="card p-2">
-                    <Image src={!(room.image) ?('https://via.placeholder.com/150') : (process.env.ImagebaseUrl + room.image)} alt={room.room_name} height="210"
+                    <Image src={!(room.image) ?('https://via.placeholder.com/150') : (process.env.ImagebaseUrl + imageFileApi[0])} alt={room.room_name} height="210"
                     width="300" />
-
+                    
                 <div className="card-body d-flex flex-column">
                     <h5 className="card-title">
                         <Link href={`/room/${room.id}`}>

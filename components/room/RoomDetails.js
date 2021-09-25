@@ -13,6 +13,8 @@ function RoomDetails() {
 
   const dispatch = useDispatch();
   const { room, error } = useSelector(state => state.roomDetails);
+  const imageFileApi = JSON.parse(room.image); 
+  //console.log(imageFileApi)
   return (
     <>
       <Head>
@@ -27,17 +29,17 @@ function RoomDetails() {
         <span id="no_of_reviews">({room.numOfReviews} Reviews)</span>
       </div>
       
-                {/* <Carousel hover='pause'>
-                    {room.images && room.images.map(image => (
-                        <Carousel.Item key={image.public_id}>
-                            <div style={{ width: '100%', height: '440px' }}>
-                            <Image src={!(room.image) ?('https://via.placeholder.com/150') : (process.env.ImagebaseUrl + room.image)} alt={room.room_name} width="100%" height="440px" />
-                            </div>
-                        </Carousel.Item>
-                    ))}
-                </Carousel> */}
+      <Carousel hover='pause'>
+          {imageFileApi && imageFileApi.map((image, index) => (
+              <Carousel.Item key={index}>
+                  <div style={{ width: '100%', height: '440px' }}>
+                  <Image src={process.env.ImagebaseUrl + image} alt={room.room_name} width="1200px" height="440px" />
+                  </div>
+              </Carousel.Item>
+          ))}
+      </Carousel>
 
-      <Image src={!(room.image) ?('https://via.placeholder.com/150') : (process.env.ImagebaseUrl + room.image)} alt={room.room_name} width="300%" height="440px" />          
+      {/* <Image src={!(room.image) ?('https://via.placeholder.com/150') : (process.env.ImagebaseUrl + imageFileApi[0])} alt={room.room_name} width="300%" height="440px" />           */}
 
       <div className="row my-5">
         <div className="col-12 col-md-6 col-lg-8">
