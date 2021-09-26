@@ -20,6 +20,7 @@ function RoomDetails() {
       <Head>
           <title>{room.room_name}</title>
       </Head>
+      
       <div className="container container-fluid">
       <h2 className="mt-5">{room.room_name}</h2>
       <div className="ratings mt-auto mb-3">

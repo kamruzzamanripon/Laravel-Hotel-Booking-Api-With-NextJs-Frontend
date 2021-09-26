@@ -10,9 +10,9 @@ import{
 } from '../constants/roomConstants'
 
 //Get all rooms
-export const getRooms = ()=> async(dispatch)=>{
+export const getRooms = (currentPage=1)=> async(dispatch)=>{
     try{
-        const data = await axios.get(`${process.env.baseUrl}/all-room`)
+        const data = await axios.get(`${process.env.baseUrl}/all-room?page=${currentPage}`)
         //console.log(data.data.data)
         dispatch({
             type: ALL_ROOMS_SUCCESS,

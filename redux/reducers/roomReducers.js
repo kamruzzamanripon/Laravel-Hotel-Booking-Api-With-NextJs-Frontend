@@ -7,6 +7,7 @@ import{
     CLEAR_ERRORS
 } from '../constants/roomConstants'
 
+//All Room Reducer
 export const allRoomsReducer = (state={ rooms:[]}, action) =>{
     switch (action.type){
         case ALL_ROOMS_SUCCESS:

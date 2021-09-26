@@ -1,17 +1,37 @@
 import React, {useEffect} from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useSelector, useDispatch} from 'react-redux'
 import {toast} from 'react-toastify'
-import { clearErrors} from '../redux/actions/roomActions'
+import Pagination from 'react-js-pagination'
 
+import { clearErrors} from '../redux/actions/roomActions'
 import RoomItem from './room/RoomItem'
 
 function Home({title = 'Home | Royal Hotel '}) {
 
     const dispatch = useDispatch()
+    const router = useRouter()
+
     const {rooms, error} = useSelector(state=>state.allRooms)
-    //console.log(rooms)
+    const {first, path} = useSelector(state=>state.allRooms.rooms.links)
+    const {current_page, per_page, total} = useSelector(state=>state.allRooms.rooms.meta)
+    
+   //Pagination 
+    let { location, page = 1 } = router.query;
+    page = Number(page)
+    const handlePagination = (page) => {
+        const currentPath = path;
+        const currentQuery = router.query;
+        currentQuery.page = page;
+
+        router.push({
+             pathname: currentPath,
+                query: currentQuery,
+        });
+
+    };
 
     useEffect(() => {
         toast.error(error)
@@ -44,6 +64,23 @@ function Home({title = 'Home | Royal Hotel '}) {
 
             </div>
             </section>
+            
+            {total > 1 &&
+                <div className="d-flex justify-content-center mt-5">
+            <Pagination
+                        activePage={current_page}
+                        itemsCountPerPage={per_page}
+                        totalItemsCount={total}
+                        onChange={handlePagination}
+                        nextPageText={'Next'}
+                        prevPageText={'Prev'}
+                        firstPageText={'First'}
+                        lastPageText={'Last'}
+                        itemClass='page-item'
+                        linkClass='page-link'
+                    />
+                </div>
+            }
 
         </div>
     )
