@@ -46,9 +46,9 @@ function Home({title = 'Home | Royal Hotel '}) {
             </Head>
             <section id="rooms" className="container mt-5">
 
-            <h2 className='mb-3 ml-2 stays-heading'>Stays in Our fineset Hotel</h2>
+            <h2 className='mb-3 ml-2 stays-heading'>{location ? `Room in ${location}` : "Stays in Our fineset Hotel"}</h2>
 
-           <Link href='#'>
+           <Link href='/search'>
               <a className='ml-2 back-to-search'> <i className='fa fa-arrow-left'></i> Back to Search</a>
            </Link>
             <div className="row">
@@ -65,7 +65,7 @@ function Home({title = 'Home | Royal Hotel '}) {
             </div>
             </section>
             
-            {total > 1 &&
+            {total > per_page &&
                 <div className="d-flex justify-content-center mt-5">
             <Pagination
                         activePage={current_page}
