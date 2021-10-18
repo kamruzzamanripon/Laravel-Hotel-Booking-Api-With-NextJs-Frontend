@@ -1,20 +1,67 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
+import { useRouter } from 'next/router'
 import {useDispatch, useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
 import {clearErrors} from '../../redux/actions/roomActions'
 import  Head from 'next/head'
 import Image from 'next/image'
 import {Carousel} from 'react-bootstrap'
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
 
-import ListofRivews from "../review/ListofRivews";
-import RoomFeatures from "./RoomFeatures";
+import ListofRivews from "../review/ListofRivews"
+import RoomFeatures from "./RoomFeatures"
+import { checkBooking, getBookedDates } from "../../redux/actions/bookingActions";
 
 function RoomDetails() {
 
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { id } = router.query;
+  const [checkInDate, setCheckInDate] = useState('')
+  const [checkOutDate, setCheckOutDate] = useState('')
+  const [daysOfStay, setDaysOfStay] = useState()
   const { room, error } = useSelector(state => state.roomDetails);
-  const imageFileApi = JSON.parse(room.image); 
+  const { available, loading: bookingLoading } = useSelector(state => state.checkBooking);
+  const { dates } = useSelector(state => state.bookedDates);
+  const imageFileApi = room.image ? JSON.parse(room.image) : ""; 
   //console.log(imageFileApi)
+
+  const excludedDates = []
+    dates.forEach(date => {
+        excludedDates.push(new Date(date))
+    })
+
+    console.log(excludedDates)
+
+  useEffect(() => {
+    dispatch(getBookedDates(id))
+    // toast.error(error)
+    dispatch(clearErrors())
+    // return () => {
+    //     dispatch({ type: CHECK_BOOKING_RESET })
+    // }
+
+}, [dispatch, id])
+
+
+  //Check Room Available in specific Date
+  const onChange = (dates)=>{
+    const[checkInDate, checkOutDate] = dates
+
+    setCheckInDate(checkInDate)
+    setCheckOutDate(checkOutDate)
+
+    if(checkInDate & checkOutDate){
+      const days = Math.floor(((new Date(checkOutDate) - new Date(checkInDate)) / 86400000) + 1)
+      setDaysOfStay(days)
+      //console.log(checkInDate.toISOString().slice(0, 19).replace('T', ' '), checkOutDate.toISOString().slice(0, 19).replace('T', ' '))
+      dispatch(checkBooking(id, checkInDate.toISOString().slice(0, 19).replace('T', ' '), checkOutDate.toISOString().slice(0, 19).replace('T', ' ')))
+    }
+  }
+  //End Check Room Available in specific Date
+
+
   return (
     <>
       <Head>
@@ -57,6 +104,27 @@ function RoomDetails() {
             <p className="price-per-night">
               <b>$ {room.pricePerNight}</b> / night
             </p>
+
+            <DatePicker
+              className='w-100'
+              selected= {checkInDate}
+              onChange= {onChange}
+              startDate={checkInDate}
+              endDate= {checkOutDate}
+              minDate={new Date()}
+              excludeDates={excludedDates}
+              selectsRange
+              inline
+            />
+
+            {available === "Room is Available"  &&
+                <div className="alert alert-success my-3 font-weight-bold">Room is available. Book now.</div>
+            }
+
+            {available === "Room is Not Available" &&
+                <div className="alert alert-danger my-3 font-weight-bold">Room not available. Try different dates.</div>
+            }
+           
             <button className="btn btn-block py-3 booking-btn">Pay</button>
           </div>
         </div>

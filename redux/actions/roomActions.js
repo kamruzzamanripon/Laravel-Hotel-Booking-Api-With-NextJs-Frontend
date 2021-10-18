@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios_auth_header from '../../util/axios_auth_header'
 
 import{
     ALL_ROOMS_SUCCESS,
@@ -23,7 +23,8 @@ export const getRooms = (currentPage=1, location="", guests=1, category)=> async
         if (category) link = link.concat(`&category=${category}`)
         
         //console.log(link)
-        const data  = await axios.get(link)
+        //const data  = await axios.get(link)
+        const data  = await axios_auth_header().get(link)
 
         dispatch({
             type: ALL_ROOMS_SUCCESS,
@@ -43,11 +44,12 @@ export const getRooms = (currentPage=1, location="", guests=1, category)=> async
 
 
 //Get Room Details
-export const getRoomDetails = (req, id)=> async(dispatch)=>{
+export const getRoomDetails = (req, id, ctx)=> async(dispatch)=>{
     try{
-        const data = await axios.get(`${process.env.baseUrl}/single-room/${id}`)
-        //console.log(data.data.data)
-        dispatch({
+        
+       const data = await axios_auth_header(ctx).get(`${process.env.baseUrl}/single-room/${id}`)
+
+       dispatch({
             type: ROOM_DETAILS_SUCCESS,
             payload: data.data.data
         })
@@ -59,6 +61,10 @@ export const getRoomDetails = (req, id)=> async(dispatch)=>{
         })
     }
 }
+
+
+
+
 
 //Clear Errors
 export const clearErrors = ()=> async(dispatch)=>{

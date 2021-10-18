@@ -6,6 +6,8 @@ import { useSelector, useDispatch} from 'react-redux'
 import {toast} from 'react-toastify'
 import Pagination from 'react-js-pagination'
 
+
+
 import { clearErrors} from '../redux/actions/roomActions'
 import RoomItem from './room/RoomItem'
 
@@ -16,8 +18,9 @@ function Home({title = 'Home | Royal Hotel '}) {
 
     const {rooms, error} = useSelector(state=>state.allRooms)
     const {first, path} = useSelector(state=>state.allRooms.rooms.links)
+    const confirm_message = useSelector(state=>state.authInfo.userInfo.message)
     const {current_page, per_page, total} = useSelector(state=>state.allRooms.rooms.meta)
-    
+        
    //Pagination 
     let { location, page = 1 } = router.query;
     page = Number(page)
@@ -35,8 +38,10 @@ function Home({title = 'Home | Royal Hotel '}) {
 
     useEffect(() => {
         toast.error(error)
+        toast.success(confirm_message)
         dispatch(clearErrors())
-    }, [])
+    }, [error,confirm_message])
+
 
     return (
         

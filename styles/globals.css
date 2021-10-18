@@ -210,6 +210,8 @@ nav {
 
 .login-header-btn {
   background-color: #e61e4d;
+  margin-right: 2px;
+  margin-bottom: 2px;
 }
 
 .login-header-btn a {
@@ -492,4 +494,10 @@ input::placeholder {
 
 #description_404 {
   color: grey;
+}
+
+.avater-image{
+  border-radius: 50%;
+  margin-top: 10px!important;
+  margin-left: 7px!important;
 }
