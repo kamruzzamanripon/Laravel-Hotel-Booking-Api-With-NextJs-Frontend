@@ -39,7 +39,7 @@ function Home({title = 'Home | Royal Hotel '}) {
     useEffect(() => {
         toast.error(error)
         toast.success(confirm_message)
-        dispatch(clearErrors())
+        //dispatch(clearErrors())
     }, [error,confirm_message])
 
 

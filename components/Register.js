@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux'
 import { newUserAction } from '../redux/actions/authActions';
 import { useRouter } from 'next/router'
 import {toast} from 'react-toastify'
+import Image from 'next/image'
 
 function Register() {
     const [name, setName] = useState('');
@@ -76,7 +77,7 @@ function Register() {
                         <div className='d-flex align-items-center'>
                             <div>
                                 <figure className='avatar mr-3 item-rtl'>
-                                    <img className="responsive-img" src={picture?URL.createObjectURL(picture):""} />
+                                    {/* <Image className="responsive-img" src={picture?URL.createObjectURL(picture):""} /> */}
                                 </figure>
                             </div>
                             <div className='custom-file'>

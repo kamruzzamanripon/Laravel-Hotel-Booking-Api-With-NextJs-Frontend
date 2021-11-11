@@ -28,21 +28,20 @@ function RoomDetails() {
   //console.log(imageFileApi)
 
   const excludedDates = []
-    dates.forEach(date => {
-        excludedDates.push(new Date(date))
-    })
+  if(dates){
+      dates.forEach(date => {
+          excludedDates.push(new Date(date))
+      })
+  }
 
-    console.log(excludedDates)
+    //console.log(excludedDates)
 
   useEffect(() => {
     dispatch(getBookedDates(id))
     // toast.error(error)
     dispatch(clearErrors())
-    // return () => {
-    //     dispatch({ type: CHECK_BOOKING_RESET })
-    // }
-
-}, [dispatch, id])
+   
+  }, [dispatch, id])
 
 
   //Check Room Available in specific Date

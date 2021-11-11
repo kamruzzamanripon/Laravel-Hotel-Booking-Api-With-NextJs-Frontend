@@ -4,12 +4,16 @@ import {
     CHECK_BOOKING_FAIL,
     CHECK_BOOKING_REQUEST, 
     CHECK_BOOKING_RESET, 
-    CHECK_BOOKING_SUCCESS, 
+    CHECK_BOOKING_SUCCESS,
+    BOOKING_ALL_DETAILS_SUCCESS, 
+    BOOKING_ALL_DETAILS_FAIL,
+    BOOKING_SINGEL_DETAILS_SUCCESS,
+    BOOKING_SINGEL_DETAILS_FAIL,
     CLEAR_ERRORS
 } from "../constants/bookingConstants"
 
 
-// Check Booking
+//Check Room Available in specific Date
 export const checkBookingReducer = (state = { available: null }, action) => {
     switch (action.type) {
 
@@ -49,7 +53,7 @@ export const checkBookingReducer = (state = { available: null }, action) => {
 
 
 
-// Get all booked dates
+//Booked Dates collection
 export const bookedDatesReducer = (state = { dates: [] }, action) => {
     switch (action.type) {
         case BOOKED_DATES_SUCCESS:
@@ -68,6 +72,48 @@ export const bookedDatesReducer = (state = { dates: [] }, action) => {
             return {
                 ...state,
                 error: null
+            }
+
+        default:
+            return state
+    }
+}
+
+
+//All Booking Record Show user's id Base
+export const allBookingReducer = (state = { dates: [] }, action) => {
+    switch (action.type) {
+        case BOOKING_ALL_DETAILS_SUCCESS:
+            return {
+                loading: true,
+                allBooking: action.payload
+            }
+
+        case BOOKING_ALL_DETAILS_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+
+        default:
+            return state
+    }
+}
+
+
+//Booking Single Details user's id base
+export const singleBookingReducer = (state = { dates: [] }, action) => {
+    switch (action.type) {
+        case BOOKING_SINGEL_DETAILS_SUCCESS:
+            return {
+                loading: true,
+                allBooking: action.payload
+            }
+
+        case BOOKING_SINGEL_DETAILS_FAIL:
+            return {
+                ...state,
+                error: action.payload
             }
 
         default:

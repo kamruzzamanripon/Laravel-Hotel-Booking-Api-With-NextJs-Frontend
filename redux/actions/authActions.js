@@ -10,6 +10,7 @@ import{
     REGISTER_SUCCESS,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
+    PROFILE_SUCCESS,
 
     Auth_Error
 } from '../constants/authConstants'
@@ -88,6 +89,24 @@ export const logoutAction = (router)=> async(dispatch)=>{
         dispatch({
             type:LOGOUT_SUCCESS,
             payload: data.data
+        })
+    }catch(errors){
+        console.log(errors)
+    }
+}
+
+
+//User Profile Details
+export const profiletAction = (id, ctx)=> async(dispatch)=>{
+    try{
+        const data = await axios_auth_header(ctx).get(`${process.env.baseUrl}/profile/${id}`)
+
+       console.log(data)
+       console.log("hello axios")
+
+        dispatch({
+            type:PROFILE_SUCCESS,
+            payload: data.data.newUser
         })
     }catch(errors){
         console.log(errors)

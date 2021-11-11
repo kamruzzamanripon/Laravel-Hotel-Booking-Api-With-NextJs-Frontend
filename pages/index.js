@@ -13,6 +13,14 @@ export default function Index() {
   )
 }
 
+
+
+//  export const getStaticProps = wrapper.getStaticProps(store => async (ctx)=>{
+//   await store.dispatch(getRooms(ctx.query.page, ctx.query.location, ctx.query.guests, ctx.query.category))
+ 
+// })
+
+
 export const getServerSideProps = wrapper.getServerSideProps(store => async (ctx)=>{
   await store.dispatch(getRooms(ctx.query.page, ctx.query.location, ctx.query.guests, ctx.query.category))
  
